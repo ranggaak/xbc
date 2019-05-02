@@ -40,12 +40,12 @@ public class TestTypeDaoImpl extends AbstractHibernateDao<TestType> implements T
 					+ "FROM TestType c "
 					+ "WHERE LOWER(c.name) = LOWER(:name) "
 					+ "AND c.isDelete = 'false' "
-					+ "AND c.id <> :idSekarang";
+					+ "AND c.id != :idSekarang";
 		Query query = getCurrentSession().createQuery(hql);
 		query.setParameter("name", name);
 		if(idSekarang == null) {
 			idSekarang = 0;
-		} 
+		}
 		query.setParameter("idSekarang", idSekarang);
 	
 		Long count = (Long) query.list().get(0);

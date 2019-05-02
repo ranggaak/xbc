@@ -23,8 +23,6 @@ public abstract class AbstractHibernateDao<T extends Serializable> {
 		return sessionFactory.getCurrentSession();
 	}
 	
-	
-	
 	public T findOne(final Integer id) {
 		return (T) getCurrentSession().get(clazz, id);
 	}

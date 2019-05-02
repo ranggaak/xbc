@@ -47,7 +47,7 @@ public class TestTypeController {
 			ResponseEntity<String> result = new ResponseEntity<>("Test Type yang sama sudah terdaftar", HttpStatus.CONFLICT);
 			return result;
 		} else {
-			testTypeService.update(testType, (Integer) session.getAttribute("sessionId"));
+			testTypeService.save(testType, (Integer) session.getAttribute("sessionId"));
 			ResponseEntity<String> result = new ResponseEntity<>("OK", HttpStatus.OK);
 		return result;
 		}
