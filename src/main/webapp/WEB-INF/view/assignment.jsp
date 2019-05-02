@@ -339,7 +339,7 @@
 			{
 				$("#endDate").notify("End Date Tidak Boleh Kosong",{position:"right",className:"error"})
 			}
-			else if($('#startDate').val() >= $('#endDate').val())
+			else if($('#startDate').val() - 1 >= $('#endDate').val())
 			{
 				$("#startDate").notify("Start Date tidak boleh lebih besar dari End Date !",{position:"right",className:"error"})
 			} 
