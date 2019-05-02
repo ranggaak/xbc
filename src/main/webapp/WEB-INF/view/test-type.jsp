@@ -102,11 +102,13 @@
 	}
 
 	function popup(id) {
+		var empName;
 		$.ajax({
 			type : 'get',
 			url : 'test-type/' + id,
 			success : function(d) {
 				$('#id').val(d.id);
+				$('#popdel').html('Are you sure to delete ' + d.name + '?');
 			},
 			error : function(d) {
 				console.log('Error');
@@ -249,7 +251,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group" align="center">
-							<p>Are you sure to delete this data?</p>
+							<p id="popdel"></p>
 						</div>
 					</div>
 					<div class="modal-footer">
