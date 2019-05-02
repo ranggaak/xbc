@@ -20,4 +20,6 @@ public interface TestTypeDao {
 	public Collection<TestType> search(String name);
 	
 	public Collection<TestType> searchDb(String name);
+	
+	public boolean checkDuplicate(String name, Integer idSekarang);
 }

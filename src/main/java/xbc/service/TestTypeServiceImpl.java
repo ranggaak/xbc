@@ -60,22 +60,20 @@ public class TestTypeServiceImpl implements TestTypeService{
 	}
 	
 	@Override
-	public Integer save(TestType testType, Integer sessionId) {
+	public boolean checkDuplicate(String name, Integer idSekarang) {
+		return testTypeDao.checkDuplicate(name, idSekarang);
+	}
+	
+	@Override
+	public void save(TestType testType, Integer sessionId) {
 		testType.setCreatedBy(sessionId);
 		testType.setCreatedOn(new Date());
 		testType.setIsDelete(false);
 		testType.setTypeOfAnswer(0);
+		testTypeDao.save(testType);
 		
-		Integer countName = this.checkName(testType.getName());
-		if (countName > 0) {
-			testType.setName(testType.getName());
-			return 1;
-		} else {
-			testTypeDao.save(testType);
-			auditLogService.logInsert(auditLogService.objectToJsonString(testType), sessionId);
-			return 2;
-		}
-		
+		auditLogService.logInsert(auditLogService.objectToJsonString(testType), sessionId);
+	
 	}
 	
 	@Override
@@ -94,17 +92,6 @@ public class TestTypeServiceImpl implements TestTypeService{
 		auditLogService.logDelete(auditLogService.objectToJsonString(testType), sessionId);
 		
 		return result;
-	}
-	
-	public Integer checkName(String name) {
-		Collection<TestType> list = testTypeDao.searchDb(name);
-		Integer countName = 0;
-		if (list == null) {
-			countName = 0;
-		} else {
-			countName = list.size();
-		}
-		return countName;
 	}
 	
 }

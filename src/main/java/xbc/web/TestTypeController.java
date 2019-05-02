@@ -42,12 +42,15 @@ public class TestTypeController {
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public Integer save(@RequestBody TestType testType, HttpSession session) {
-//		testType.setCreatedBy(session.getsession("id"));
-		Integer result = testTypeService.save(testType, (Integer) session.getAttribute("sessionId"));
-		
-		//ResponseEntity<TestType> result = new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> save(@RequestBody TestType testType, HttpSession session) {
+		if (testTypeService.checkDuplicate(testType.getName(), testType.getId())) {
+			ResponseEntity<String> result = new ResponseEntity<>("Test Type yang sama sudah terdaftar", HttpStatus.CONFLICT);
+			return result;
+		} else {
+			testTypeService.update(testType, (Integer) session.getAttribute("sessionId"));
+			ResponseEntity<String> result = new ResponseEntity<>("OK", HttpStatus.OK);
 		return result;
+		}
 	}
 	
 	
@@ -60,11 +63,14 @@ public class TestTypeController {
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
-	public ResponseEntity<TestType> update(@RequestBody TestType testType, HttpSession session) {
-		testTypeService.update(testType, (Integer) session.getAttribute("sessionId"));
-		
-		ResponseEntity<TestType> result = new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> update(@RequestBody TestType testType, HttpSession session) {
+		if (testTypeService.checkDuplicate(testType.getName(), testType.getId())) {
+			ResponseEntity<String> result = new ResponseEntity<>("Test Type yang sama sudah terdaftar", HttpStatus.CONFLICT);
+			return result;
+		} else {
+			testTypeService.update(testType, (Integer) session.getAttribute("sessionId"));
+			ResponseEntity<String> result = new ResponseEntity<>("OK", HttpStatus.OK);
 		return result;
-		
+		}
 	}
 }

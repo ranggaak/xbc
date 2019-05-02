@@ -16,4 +16,5 @@ public interface CategoryDao {
 	// ------------- tambahan
 	
 	public Collection<Category> search(String codeOrName);
+	public boolean checkDuplicate(String name);
 }

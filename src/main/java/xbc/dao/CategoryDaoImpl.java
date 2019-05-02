@@ -39,4 +39,21 @@ public class CategoryDaoImpl extends AbstractHibernateDao<Category> implements C
 		Collection<Category> result = query.list();
 		return result;
 	}
+	
+	@Override
+	public boolean checkDuplicate(String name) {
+		String hql  = "SELECT COUNT(*) "
+					+ "FROM Category c "
+					+ "WHERE LOWER(c.name) = LOWER(:name) "
+					+ "AND c.isDelete = 'false' ";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setParameter("name", name);
+	
+		Long count = (Long) query.list().get(0);
+		if (count == 0) {
+			return false;	
+		} else {
+			return true;
+		}
+	}
 }

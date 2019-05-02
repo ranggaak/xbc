@@ -87,19 +87,15 @@
 			contentType : 'application/json',
 			success : function(d) {
 				refreshTable();
-				if (d == 1){
-					$("#name").notify("Nama Sudah Ada !",{position:"right",className:"error"});
-				} else {
 					$('#modal-default').modal('hide');
 					if (method == 'POST'){
 						$.notify("Data successfully saved !", "success");
 					} else if (method == 'PUT') {
 						$.notify("Data successfully updated !", "success");
 					}
-				}
 			},
 			error : function(d) {
-				console.log('Error');
+				$("#name").notify(d.responseText,{position:"right",className:"error"});
 			}
 		});
 		}
