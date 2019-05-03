@@ -102,7 +102,6 @@
 	}
 
 	function popup(id) {
-		var empName;
 		$.ajax({
 			type : 'get',
 			url : 'test-type/' + id,
