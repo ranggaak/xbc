@@ -49,11 +49,15 @@ public class BootcampTestTypeController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public Integer save(@RequestBody BootcampTestType bootcampTestType, HttpSession session) {
-		//bootcampTestTypeService.save(bootcampTestType, (Integer) session.getAttribute("sessionId"));
-		Integer result = bootcampTestTypeService.save(bootcampTestType, (Integer) session.getAttribute("sessionId"));
-		//ResponseEntity<BootcampTestType> result = new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> save(@RequestBody BootcampTestType bootcampTestType, HttpSession session) {
+		if (bootcampTestTypeService.checkDuplicate(bootcampTestType.getName(), bootcampTestType.getId())) {
+			ResponseEntity<String> result = new ResponseEntity<>("Test Type yang sama sudah terdaftar", HttpStatus.CONFLICT);
+			return result;
+		} else {
+			bootcampTestTypeService.save(bootcampTestType, (Integer) session.getAttribute("sessionId"));
+			ResponseEntity<String> result = new ResponseEntity<>("OK", HttpStatus.OK);
 		return result;
+		}
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -65,10 +69,14 @@ public class BootcampTestTypeController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
-	public ResponseEntity<BootcampTestType> update(@RequestBody BootcampTestType bootcampTestType, HttpSession session) {
-		bootcampTestTypeService.update(bootcampTestType, (Integer) session.getAttribute("sessionId"));
-
-		ResponseEntity<BootcampTestType> result = new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<String> update(@RequestBody BootcampTestType bootcampTestType, HttpSession session) {
+		if (bootcampTestTypeService.checkDuplicate(bootcampTestType.getName(), bootcampTestType.getId())) {
+			ResponseEntity<String> result = new ResponseEntity<>("Test Type yang sama sudah terdaftar", HttpStatus.CONFLICT);
+			return result;
+		} else {
+			bootcampTestTypeService.update(bootcampTestType, (Integer) session.getAttribute("sessionId"));
+			ResponseEntity<String> result = new ResponseEntity<>("OK", HttpStatus.OK);
 		return result;
+		}
 	}
 }

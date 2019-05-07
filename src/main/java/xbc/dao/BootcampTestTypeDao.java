@@ -21,4 +21,5 @@ public interface BootcampTestTypeDao {
 	public Collection<BootcampTestType> search(String name);
 	
 	public Collection<BootcampTestType> searchDb(String name);
+	public boolean checkDuplicate(String name, Integer idSekarang);
 }

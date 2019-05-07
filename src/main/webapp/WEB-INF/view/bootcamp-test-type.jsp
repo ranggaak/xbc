@@ -99,7 +99,7 @@
 				}
 			},
 			error : function(d) {
-				console.log('Error');
+				$("#name").notify(d.responseText,{position:"right",className:"error"});
 			}
 		});
 		}

@@ -33,4 +33,26 @@ public class BootcampTestTypeDaoImpl extends AbstractHibernateDao<BootcampTestTy
 		Collection<BootcampTestType> result = q.list();
 		return result;
 	}
+	
+	@Override
+	public boolean checkDuplicate(String name, Integer idSekarang) {
+		String hql  = "SELECT COUNT(*) "
+					+ "FROM BootcampTestType c "
+					+ "WHERE LOWER(c.name) = LOWER(:name) "
+					+ "AND c.isDelete = 'false' "
+					+ "AND c.id != :idSekarang";
+		Query query = getCurrentSession().createQuery(hql);
+		query.setParameter("name", name);
+		if(idSekarang == null) {
+			idSekarang = 0;
+		}
+		query.setParameter("idSekarang", idSekarang);
+	
+		Long count = (Long) query.list().get(0);
+		if (count == 0) {
+			return false;	
+		} else {
+			return true;
+		}
+	}
 }

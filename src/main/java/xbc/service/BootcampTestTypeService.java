@@ -13,7 +13,8 @@ public interface BootcampTestTypeService {
 	public BootcampTestType update(BootcampTestType bootcampTestType, Integer sessionId);
 	public void delete(BootcampTestType bootcampTestType);
 	public void deleteById(Integer id);
-	public Integer save(BootcampTestType bootcampTestType, Integer sessionId);
+	public void save(BootcampTestType bootcampTestType, Integer sessionId);
 	public Collection<BootcampTestType> search(String name);
 	public BootcampTestType softDeleteById(Integer id, Integer sessionId);
+	public boolean checkDuplicate(String name, Integer idSekarang);
 }

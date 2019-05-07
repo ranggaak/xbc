@@ -60,29 +60,30 @@ public class BootcampTestTypeServiceImpl implements BootcampTestTypeService{
 	}
 
 	@Override
-	public Integer save(BootcampTestType bootcampTestType, Integer sessionId) {
+	public void save(BootcampTestType bootcampTestType, Integer sessionId) {
 		bootcampTestType.setCreatedBy(sessionId);
 		bootcampTestType.setCreatedOn(new Date());
 		bootcampTestType.setIsDelete(false);
+		bootcampTestTypeDao.save(bootcampTestType);
 		
-		Integer countName = this.checkName(bootcampTestType.getName());
-		if (countName > 0) {
-			bootcampTestType.setName(bootcampTestType.getName());
-			return 1;
-		} else {
-			bootcampTestTypeDao.save(bootcampTestType);
-			auditLogService.logInsert(auditLogService.objectToJsonString(bootcampTestType), sessionId);
-			return 2;
-		}
+		auditLogService.logInsert(auditLogService.objectToJsonString(bootcampTestType), sessionId);
 	}
 
 	// ------------- tambahan
+	
+	
 	
 	@Override
 	public Collection<BootcampTestType> search(String name) {
 		return bootcampTestTypeDao.search(name);
 	}
 	
+	@Override
+	public boolean checkDuplicate(String name, Integer idSekarang) {
+		// TODO Auto-generated method stub
+		return bootcampTestTypeDao.checkDuplicate(name, idSekarang);
+	}
+
 	@Override
 	public BootcampTestType softDeleteById(Integer id, Integer sessionId) {
 		BootcampTestType bootcampTestType = bootcampTestTypeDao.findOne(id);
