@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import xbc.dao.AuditLogDao;
 import xbc.model.AuditLog;
+import xbc.web.IgnoranceInstropector;
 
 @Service
 @Transactional
@@ -25,7 +26,12 @@ public class AuditLogServiceImpl implements AuditLogService {
 	public String objectToJsonString(Object object) {
 		String jsonString = null;
 		try {
-			jsonString = new ObjectMapper().enable(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(object);
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
+			objectMapper.setAnnotationIntrospector(new IgnoranceInstropector());
+			jsonString = objectMapper.writeValueAsString(object);
+//			AuditLog lama
+//			jsonString = new ObjectMapper().enable(SerializationFeature.WRAP_ROOT_VALUE).writeValueAsString(object);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
